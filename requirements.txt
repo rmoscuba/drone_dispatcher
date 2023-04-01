@@ -5,4 +5,5 @@ flask-restful
 flask-bcrypt
 PyJWT
 marshmallow
+Flask-Migrate
 # pymysql

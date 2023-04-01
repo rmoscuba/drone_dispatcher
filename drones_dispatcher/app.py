@@ -4,8 +4,10 @@ import os
 from flask import Flask
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 db = SQLAlchemy()
+migrate = Migrate()
 
 def create_app():
     """Construct the core application."""
@@ -20,6 +22,7 @@ def create_app():
     create_authentication_routes(api=api)
 
     db.init_app(app)
+    migrate.init_app(app, db)
 
     with app.app_context():
 
