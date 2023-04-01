@@ -1,0 +1,8 @@
+Flask
+Flask-SQLAlchemy
+python-dotenv
+flask-restful
+flask-bcrypt
+PyJWT
+marshmallow
+# pymysql
