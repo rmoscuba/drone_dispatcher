@@ -27,5 +27,7 @@ delivering small loads. For our use case the load is medications.
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-flask --app drones_dispatcher/app run
+cd drones_dispatcher
+flask db upgrade
+flask --app app run
 ```

@@ -9,6 +9,9 @@ __pycache__/
 # Config file
 .env
 
+# SQLite DB
+*.db
+
 # Distribution / packaging
 .Python
 .venv
