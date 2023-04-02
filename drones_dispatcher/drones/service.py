@@ -67,6 +67,37 @@ def get_drone(request, id):
     )
 
 
+def get_drone_medications(request, id):
+    """
+    Checking loaded medication items for a given drone id
+
+    :param request: The request
+    :param id: Medication id
+    :return: A dictionary response
+    """
+    uuid_validation_schema = UUIDSchema()
+    errors = uuid_validation_schema.validate({"id": id})
+    if errors:
+        return generate_response(message=errors)
+
+    # Convert to a canonical UUID string
+    canon_id = str(uuid.UUID(id))
+
+    drone = Drone.query.filter_by(id=canon_id).first()
+    if not drone:  
+        return generate_response(
+            message="A drone does not exist with this id", status=HTTPStatus.NOT_FOUND
+        )
+
+    medications = []
+    for medication in drone.medications:
+        medications.append(medication.as_dict())
+
+    return generate_response(
+        data={"medications": medications}, message="Drone", status=HTTPStatus.OK
+    )
+
+
 def update_drone(request, input_data, id):
     """
     Update a drone by id service

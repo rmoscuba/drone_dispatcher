@@ -5,6 +5,7 @@ from flask import request, make_response
 from drones.service import get_drone
 from drones.service import create_drone
 from drones.service import update_drone
+from drones.service import get_drone_medications
 
 
 class Drone(Resource):
@@ -40,4 +41,14 @@ class DroneById(Resource):
         """
         input_data = request.get_json()
         response = update_drone(request, input_data, id)
+        return make_response(response, response['status'])
+
+class DroneMedicationsById(Resource):
+    @staticmethod
+    def get(id) -> Response:
+        """
+        Get drone medications items by drone id response.
+        :return: JSON of the medications list data
+        """
+        response = get_drone_medications(request, id)
         return make_response(response, response['status'])
