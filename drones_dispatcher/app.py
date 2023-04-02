@@ -18,8 +18,10 @@ def create_app():
     api = Api(app=app)
 
     from users.routes import create_authentication_routes
+    from medications.routes import create_medications_routes
 
     create_authentication_routes(api=api)
+    create_medications_routes(api=api)
 
     db.init_app(app)
     migrate.init_app(app, db)

@@ -1,5 +1,6 @@
 """Flask configuration variables."""
 from os import environ, path
+import os
 
 from dotenv import load_dotenv
 
@@ -14,6 +15,10 @@ class Config:
     SECRET_KEY = environ.get("SECRET_KEY")
     FLASK_APP = environ.get("FLASK_APP")
     FLASK_DEBUG = environ.get("FLASK_DEBUG")
+
+    # File upload
+    UPLOAD_FOLDER = os.path.abspath(environ.get("UPLOAD_FOLDER"))
+    MAX_CONTENT_LENGTH = int(environ.get("MAX_CONTENT_LENGTH"))
 
     # Database
     SQLALCHEMY_DATABASE_URI = environ.get("SQLALCHEMY_DATABASE_URI")
