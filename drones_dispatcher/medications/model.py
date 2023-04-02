@@ -16,6 +16,8 @@ class Medication(db.Model):
     code = db.Column(db.String(64), index=True, unique=True, nullable=False)
     image = db.Column(db.String(256), nullable=True)
     created = db.Column(db.DateTime, default=datetime.datetime.utcnow, nullable=True)
+    
+    drone_id = db.Column(db.Text(length=36), db.ForeignKey('drones.id'))
 
     def __init__(self, **kwargs):
         """
@@ -25,6 +27,7 @@ class Medication(db.Model):
         self.weight = kwargs.get("weight")
         self.code = kwargs.get("code")
         self.image = kwargs.get("image")
+        self.drone_id = kwargs.get("drone_id")
 
     def as_dict(self):
         """

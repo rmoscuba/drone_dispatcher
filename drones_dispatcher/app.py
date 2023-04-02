@@ -19,9 +19,11 @@ def create_app():
 
     from users.routes import create_authentication_routes
     from medications.routes import create_medications_routes
+    from drones.routes import create_drone_routes
 
     create_authentication_routes(api=api)
     create_medications_routes(api=api)
+    create_drone_routes(api=api)
 
     db.init_app(app)
     migrate.init_app(app, db)

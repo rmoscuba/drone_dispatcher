@@ -13,6 +13,7 @@ class MedicationInputSchema(Schema):
                       validate=validate.Regexp("^[A-Z0-9_]+$", 
                       error="Only upper case letters, _ and numbers allowed"))
     weight = fields.Int(required=True)
+    drone_id = fields.UUID(attribute="id")
 
 # UUID valitation schema
 # Requires a valid UUID
