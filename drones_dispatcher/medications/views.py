@@ -6,7 +6,7 @@ from medications.service import get_medication
 from medications.service import create_medication
 from medications.service import update_medication
 from medications.service import medication_image_upload
-from drones_dispatcher.auth.jwt import token_required
+from auth.jwt import token_required
 
 
 class Medication(Resource):

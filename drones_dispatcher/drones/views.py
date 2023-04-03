@@ -7,7 +7,7 @@ from drones.service import create_drone
 from drones.service import update_drone
 from drones.service import get_drone_medications
 from drones.service import get_drones_available
-from drones_dispatcher.auth.jwt import token_required
+from auth.jwt import token_required
 
 
 class Drone(Resource):

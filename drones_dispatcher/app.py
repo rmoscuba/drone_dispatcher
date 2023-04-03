@@ -12,7 +12,7 @@ db = SQLAlchemy()
 migrate = Migrate()
 
 scheduler = BackgroundScheduler(daemon=True)
-scheduler.add_job(dispatcher.dispatch,'interval',seconds=5)
+scheduler.add_job(dispatcher.dispatch,'interval',seconds=60)
 scheduler.start()
 
 
