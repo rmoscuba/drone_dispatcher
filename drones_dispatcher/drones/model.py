@@ -34,6 +34,16 @@ class StateEnum(enum.Enum):
         """
         return self.name
 
+    def next(self):
+        """
+        Return the consecutive Enum value
+        """
+        next_value = self.value[0]
+        if next_value > 6:
+            raise ValueError('No more values')
+        return StateEnum(list(StateEnum)[next_value])
+
+
 # The Drone class is a data model for medications
 class Drone(db.Model):
     """Data model for drones."""

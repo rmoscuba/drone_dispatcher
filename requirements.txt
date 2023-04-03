@@ -6,4 +6,5 @@ flask-bcrypt
 PyJWT
 marshmallow
 Flask-Migrate
+APScheduler
 # pymysql

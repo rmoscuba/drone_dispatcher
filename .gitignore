@@ -11,6 +11,7 @@ __pycache__/
 
 # SQLite DB
 *.db
+*.db-journal
 
 # Distribution / packaging
 .Python

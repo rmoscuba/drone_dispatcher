@@ -5,9 +5,16 @@ from flask import Flask
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from apscheduler.schedulers.background import BackgroundScheduler
+from dispatcher import dispatcher
 
 db = SQLAlchemy()
 migrate = Migrate()
+
+scheduler = BackgroundScheduler(daemon=True)
+scheduler.add_job(dispatcher.dispatch,'interval',seconds=5)
+scheduler.start()
+
 
 def create_app():
     """Construct the core application."""
