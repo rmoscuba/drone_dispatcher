@@ -6,6 +6,7 @@ from drones.service import get_drone
 from drones.service import create_drone
 from drones.service import update_drone
 from drones.service import get_drone_medications
+from drones.service import get_drones_available
 
 
 class Drone(Resource):
@@ -43,6 +44,7 @@ class DroneById(Resource):
         response = update_drone(request, input_data, id)
         return make_response(response, response['status'])
 
+
 class DroneMedicationsById(Resource):
     @staticmethod
     def get(id) -> Response:
@@ -51,4 +53,15 @@ class DroneMedicationsById(Resource):
         :return: JSON of the medications list data
         """
         response = get_drone_medications(request, id)
+        return make_response(response, response['status'])
+
+
+class DronesLoadingAvailable(Resource):
+    @staticmethod
+    def get() -> Response:
+        """
+        Get available drones for loading response.
+        :return: JSON of the medication data
+        """
+        response = get_drones_available(request)
         return make_response(response, response['status'])

@@ -94,7 +94,25 @@ def get_drone_medications(request, id):
         medications.append(medication.as_dict())
 
     return generate_response(
-        data={"medications": medications}, message="Drone", status=HTTPStatus.OK
+        data={"medications": medications, "count": len(medications)}, message="Drone", status=HTTPStatus.OK
+    )
+
+
+def get_drones_available(request):
+    """
+    Checking available drones for loading
+
+    :param request: The request
+    :return: A dictionary response
+    """
+    drones = Drone.query.filter_by(state="IDLE").all()
+
+    drones_list = []
+    for drone in drones:
+        drones_list.append(drone.as_dict())
+
+    return generate_response(
+        data={"drones": drones_list, "count": len(drones_list)}, message="Drones", status=HTTPStatus.OK
     )
 
 
