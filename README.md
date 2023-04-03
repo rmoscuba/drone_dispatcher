@@ -56,7 +56,12 @@ curl --location --request POST 'http://127.0.0.1:5000/api/drone/' \
 }'
 ```
 
-### Loda a dron
+### Upload Medication picture
+```
+curl -i --request PUT --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdkMGI2NGYyLTNhYzctNGJhZS04Mzk3LTU1Y2YwZTU4YWVhMSIsImVtYWlsIjoiam9obkBleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoiam9obmRvZSIsImV4cCI6MTY4MDU0ODQ5Nn0.pMQfj3GAjcUsBbj772jhaIlX9d14jf_JOiw5SR6mGK0' --header "Content-Type: multipart/form-data" -F "file=@/path/to/pitcture.png" http://127.0.0.1:5000/api/medication/a38b7b11-675d-4284-8a8f-52b6ab0ae01a/image/
+```
+
+### Load a dron
 ```
 curl --location --request POST 'http://127.0.0.1:5000/api/medication/' \
 --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdkMGI2NGYyLTNhYzctNGJhZS04Mzk3LTU1Y2YwZTU4YWVhMSIsImVtYWlsIjoiam9obkBleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoiam9obmRvZSIsImV4cCI6MTY4MDU0NjA3MX0.m_6VHPJjLomoHRn5L6bK4ksTsb2x5yQ0cSv1VbqPFKY' \
