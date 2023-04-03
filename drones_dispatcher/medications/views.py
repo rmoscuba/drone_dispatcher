@@ -6,10 +6,12 @@ from medications.service import get_medication
 from medications.service import create_medication
 from medications.service import update_medication
 from medications.service import medication_image_upload
+from drones_dispatcher.auth.jwt import token_required
 
 
 class Medication(Resource):
     @staticmethod
+    @token_required
     def post() -> Response:
         """
         New medication response.
@@ -22,8 +24,10 @@ class Medication(Resource):
             object_response.headers['Location'] = url_for('medicationbyid', id=response['data']['id'])
         return object_response
 
+
 class MedicationById(Resource):
     @staticmethod
+    @token_required
     def get(id) -> Response:
         """
         Get medication response.
@@ -33,6 +37,7 @@ class MedicationById(Resource):
         return make_response(response, response['status'])
 
     @staticmethod
+    @token_required
     def put(id) -> Response:
         """
         Update medication response.
@@ -45,6 +50,7 @@ class MedicationById(Resource):
 
 class MedicationImageUpload(Resource):
     @staticmethod
+    @token_required
     def put(id) -> Response:
         """
         Medication image upload response.
@@ -58,6 +64,7 @@ class MedicationImageUpload(Resource):
         return object_response
 
     @staticmethod
+    @token_required
     def get(id) -> Response:
         """
         Medication image response

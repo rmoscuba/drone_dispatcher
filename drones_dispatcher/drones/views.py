@@ -7,10 +7,12 @@ from drones.service import create_drone
 from drones.service import update_drone
 from drones.service import get_drone_medications
 from drones.service import get_drones_available
+from drones_dispatcher.auth.jwt import token_required
 
 
 class Drone(Resource):
     @staticmethod
+    @token_required
     def post() -> Response:
         """
         New drone response.
@@ -26,6 +28,7 @@ class Drone(Resource):
 
 class DroneById(Resource):
     @staticmethod
+    @token_required
     def get(id) -> Response:
         """
         Get drone response.
@@ -35,6 +38,7 @@ class DroneById(Resource):
         return make_response(response, response['status'])
 
     @staticmethod
+    @token_required
     def put(id) -> Response:
         """
         Update drone response.
@@ -47,6 +51,7 @@ class DroneById(Resource):
 
 class DroneMedicationsById(Resource):
     @staticmethod
+    @token_required
     def get(id) -> Response:
         """
         Get drone medications items by drone id response.
@@ -58,6 +63,7 @@ class DroneMedicationsById(Resource):
 
 class DronesLoadingAvailable(Resource):
     @staticmethod
+    @token_required
     def get() -> Response:
         """
         Get available drones for loading response.

@@ -9,7 +9,6 @@ def create_medications_routes(api: Api):
     """Adds endpoints to the api.
     :param api: Flask-RESTful Api Object
     """
-    # api.add_resource(Medication, "/api/medication/")
     api.add_resource(Medication, "/api/medication/")
     api.add_resource(MedicationById, "/api/medication/<string:id>/")
     api.add_resource(MedicationImageUpload, "/api/medication/<string:id>/image/")

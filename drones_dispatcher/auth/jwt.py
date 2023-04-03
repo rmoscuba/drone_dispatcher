@@ -1,7 +1,11 @@
 import datetime
+from functools import wraps
 import os
+from flask import abort, current_app, request
 
 import jwt
+
+from users.model import User
 
 
 class Token:
@@ -27,7 +31,7 @@ class Token:
         """
         Decode an auth jwt token
         :param token: The token to be decoded
-        :return: Fictionary the user's id and username
+        :return: The valid token or None
         """
         try:
             token = jwt.decode(
@@ -39,5 +43,50 @@ class Token:
             return token
         except Exception as e:
             return None
+
+
+def token_required(func):
+    @wraps(func)
+    def decorated(*args, **kwargs):
+        """
+        Enforce a valid jwt token decorator
+        :param token: The token to be decoded
+        :return: Decorated function
+        """
+        token = None
+        if "Authorization" in request.headers:
+            token = request.headers["Authorization"].split(" ")[1]
+        if not token:
+            return {
+                "message": "Authentication Token is missing!",
+                "data": None,
+                "error": "Unauthorized"
+            }, 401
+        try:
+            data=Token.decode_token(token)
+            if data is None:
+                return {
+                "message": "Invalid Authentication",
+                "data": None,
+                "error": "Unauthorized"
+            }, 401
+            current_user=User.query.filter_by(id = data["id"])
+            if current_user is None:
+                return {
+                "message": "Invalid Authentication",
+                "data": None,
+                "error": "Unauthorized"
+            }, 401
+        except Exception as e:
+            return {
+                "message": "Invalid Authentication error",
+                "data": None,
+                "error": str(e)
+            }, 500
+
+        return func(*args, **kwargs)
+
+    return decorated
+    
 
 token_generator = Token()
