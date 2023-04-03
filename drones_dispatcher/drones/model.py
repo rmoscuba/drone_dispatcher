@@ -77,3 +77,16 @@ class Drone(db.Model):
         for key, value in values.items():
             if hasattr(self, key):
                 setattr(self, key, value)
+
+    def cannot_load_error(self, weight):
+        """
+        Return error message if drone cannot load a weight
+        """
+        if self.state != StateEnum.LOADING:
+            return "Drone is not available for loading"
+        load = self.weight_limit
+        for medication in self.medications:
+            load -= medication.weight
+        if load < weight:
+            return "Drone capacity reached"
+        return None

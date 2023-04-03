@@ -3,6 +3,7 @@ import os
 import uuid
 import jwt
 import datetime
+from drones.model import Drone
 from utils.response import generate_response
 from app import db
 from os import environ
@@ -30,6 +31,16 @@ def create_medication(request, input_data):
     errors = create_validation_schema.validate(input_data)
     if errors:
         return generate_response(message=errors)
+    
+    # Prevent the drone from being loaded with more weight that it can carry
+    check_drone_exist = Drone.query.filter_by(id=input_data.get("drone_id")).first()
+    if check_drone_exist:
+        message = check_drone_exist.cannot_load_error(input_data.get("weight"))
+        if message:
+            return generate_response(
+                message=message, status=HTTPStatus.BAD_REQUEST
+            )
+
     check_name_exist = Medication.query.filter_by(name=input_data.get("name")).first()
     check_code_exist = Medication.query.filter_by(code=input_data.get("code")).first()
     if check_name_exist:
@@ -102,6 +113,22 @@ def update_medication(request, input_data, id):
         return generate_response(
             message="A medication does not exist with this id", status=HTTPStatus.NOT_FOUND
         )
+
+    # Prevent medication from being loaded by another drone
+    if medication.drone_id and medication.drone_id != input_data.get("drone_id") and input_data.get("drone_id") is not None:
+        return generate_response(
+                message="Medication already loaded", status=HTTPStatus.BAD_REQUEST
+            )
+
+    # Prevent the drone from being loaded with more weight that it can carry
+    if not medication.drone_id:
+        check_drone_exist = Drone.query.filter_by(id=input_data.get("drone_id")).first()
+        if check_drone_exist:
+            message = check_drone_exist.cannot_load_error(input_data.get("weight"))
+            if message:
+                return generate_response(
+                    message=message, status=HTTPStatus.BAD_REQUEST
+                )
 
     check_name_exist = Medication.query.filter(Medication.id != canon_id).filter_by(name=input_data.get("name")).first()
     check_code_exist = Medication.query.filter(Medication.id != canon_id).filter_by(code=input_data.get("code")).first()
