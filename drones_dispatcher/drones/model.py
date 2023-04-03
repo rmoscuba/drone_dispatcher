@@ -3,6 +3,7 @@ import datetime
 import uuid
 import enum
 from sqlalchemy import Enum
+from sqlalchemy.orm import validates
 
 from app import db
 
@@ -90,3 +91,12 @@ class Drone(db.Model):
         if load < weight:
             return "Drone capacity reached"
         return None
+
+    @validates("state")
+    def validates_state(self, key, value):
+        """
+        Prevent the drone from being in LOADING state if the battery level is below 25%
+        """
+        if value == "LOADING" and self.battery_capacity < 25:
+            raise ValueError("Drone can not be in LOADING state if the battery level is below 25%")
+        return value

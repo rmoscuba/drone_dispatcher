@@ -149,8 +149,13 @@ def update_drone(request, input_data, id):
             message="A drone already exist with this name", status=HTTPStatus.BAD_REQUEST
         )
 
-    drone.update(input_data)  # Update Drone to the DB
-    db.session.commit()
+    try:
+        drone.update(input_data)  # Update Drone to the DB
+        db.session.commit()
+    except ValueError as e:
+        return generate_response(
+            message=str(e), status=HTTPStatus.BAD_GATEWAY
+        )
     
     return generate_response(
         data=drone.as_dict(), message="Drone", status=HTTPStatus.CREATED
